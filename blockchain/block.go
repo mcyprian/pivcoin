@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/binary"
 	"encoding/json"
+	"reflect"
 	"time"
 
 	"github.com/mcyprian/pivcoin/uuid"
@@ -94,7 +95,8 @@ func (block *Block) GetHashSum() []byte {
 	for _, item := range block.Data {
 		bs = append(bs, item.Serialize()...)
 	}
-	return h.Sum(bs)
+	h.Write(bs)
+	return h.Sum(nil)
 }
 
 // Serialize block to JSON
@@ -111,7 +113,11 @@ func (block Block) ToJSON() string {
 func (block *Block) IsNext(previous *Block) bool {
 	if block.Index != previous.Index+1 {
 		return false
+	} else if !reflect.DeepEqual(block.PreviousHash, previous.Hash) {
+		return false
 	} else if block.Timestamp <= previous.Timestamp {
+		return false
+	} else if block.Hash[0] != 0 {
 		return false
 	}
 	return true

@@ -6,11 +6,16 @@ import (
 
 func FindNextBlock(previous *Block) *Block {
 	var nonce uint32 = 0
-	block := NewFromPrevious(previous, nonce, []Transaction{
-		Transaction{
-			uuid.GenerateID(),
-			uuid.GenerateID(),
-			10000},
-	})
-	return block
+	for {
+		block := NewFromPrevious(previous, nonce, []Transaction{
+			Transaction{
+				uuid.GenerateID(),
+				uuid.GenerateID(),
+				10000},
+		})
+		if block.IsNext(previous) {
+			return block
+		}
+		nonce++
+	}
 }
