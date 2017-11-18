@@ -109,7 +109,6 @@ func (block Block) ToJSON() string {
 }
 
 // Determine whether block is a valid successor of previous block of not
-// TODO it is your job to finish this Risko ;)
 func (block *Block) IsNext(previous *Block) bool {
 	if block.Index != previous.Index+1 {
 		return false
@@ -117,7 +116,7 @@ func (block *Block) IsNext(previous *Block) bool {
 		return false
 	} else if block.Timestamp <= previous.Timestamp {
 		return false
-	} else if block.Hash[0] != 0 {
+	} else if block.Hash[0] != 0 || block.Hash[1] != 0 || block.Hash[2] != 0 {
 		return false
 	}
 	return true
