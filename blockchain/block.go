@@ -12,7 +12,7 @@ import (
 
 func intToBytes(num uint32) []byte {
 	bs := make([]byte, 4)
-	binary.LittleEndian.PutUint32(bs, 31415926)
+	binary.LittleEndian.PutUint32(bs, num)
 	return bs
 }
 
@@ -116,7 +116,7 @@ func (block *Block) IsNext(previous *Block) bool {
 		return false
 	} else if block.Timestamp <= previous.Timestamp {
 		return false
-	} else if block.Hash[0] != 0 || block.Hash[1] != 0 || block.Hash[2] != 0 {
+	} else if block.Hash[0] != 0 || block.Hash[1] != 0 {
 		return false
 	}
 	return true
